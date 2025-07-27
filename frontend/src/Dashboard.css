@@ -1,0 +1,169 @@
+.dashboard {
+    background: radial-gradient(ellipse at center, #0b0f1a 0%, #05060a 100%);
+    min-height: 100vh;
+    padding: 2rem;
+    color: #e0e7ff;
+    font-family: 'Orbitron', sans-serif;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 2rem;
+    color: #8ab4f8;
+    text-shadow: 0 0 5px #8ab4f8;
+  }
+  
+  .dashboard-header p {
+    font-size: 1rem;
+    color: #bfcfff;
+    font-family: monospace;
+  }
+  
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background: linear-gradient(145deg, #1c2333, #0f111a);
+    border: 1px solid #2a2d3d;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(138, 180, 248, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px rgba(138, 180, 248, 0.3);
+  }
+  
+  .card h3 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff99;
+  }
+  
+  .card p {
+    font-size: 1rem;
+    color: #ccc;
+    letter-spacing: 0.5px;
+  }
+  
+  .card.sat h3 {
+    color: #8ab4f8;
+  }
+  
+  .card.contact h3 {
+    color: #00ffa1;
+  }
+  
+  .card.low h3 {
+    color: #ffc107;
+  }
+  
+  .card.error h3 {
+    color: #ff6b6b;
+  }.blackhole-container {
+    position: relative;
+    display: inline-block;
+  }
+  .blackhole-button {
+    position: relative;
+    padding: 1rem 2.5rem;
+    font-size: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #cbe8ff;
+    background: #0b0b15;
+    border: 2px solid #5ab0ff;
+    border-radius: 2.5rem;
+    box-shadow: 0 0 20px rgba(90, 176, 255, 0.3);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 0;
+  }
+  
+  /* Hover shimmer + glow swirl */
+  .blackhole-button:hover {
+    background: linear-gradient(120deg, #0e0e2c, #1c1c3c, #29294a);
+    background-size: 300% 300%;
+    animation: shimmer 4s infinite alternate;
+    box-shadow: 0 0 25px #9fc6ff;
+  }
+  
+  /* Galaxy shimmer animation */
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 50%;
+      box-shadow: 0 0 15px #4ea6ff;
+    }
+    50% {
+      background-position: 100% 50%;
+      box-shadow: 0 0 25px #8f65ff;
+    }
+    100% {
+      background-position: 0% 50%;
+      box-shadow: 0 0 30px #65ffe4;
+    }
+  }
+  
+  /* Star elements (added via JS or React) */
+  .blackhole-button .star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.9;
+    filter: blur(1.5px);
+    transform-origin: center -30px;
+    box-shadow: 0 0 8px #8ab4ff, 0 0 12px #a68eff, 0 0 20px #94c1ff;
+    animation: swirl 3s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Star pulse */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+  }
+  
+  /* Orbit paths */
+  .star.orbit1 { animation: orbit1 5s linear infinite; }
+  .star.orbit2 { animation: orbit2 7s linear infinite; }
+  .star.orbit3 { animation: orbit3 10s linear infinite; }
+  
+  @keyframes orbit1 {
+    0%   { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+  }
+  @keyframes orbit2 {
+    0%   { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+  }
+  @keyframes orbit3 {
+    0%   { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+  }
+  
