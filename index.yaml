@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  satellite-app:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-07-27T15:45:03.908574-05:00"
+    description: A Helm chart for deploying the Orbital frontend and backend on Kubernetes.
+    digest: 60f06e6bdf03ae6a57a75fee5774d677b34ab6dd65d550d2081ea2756ce050fc
+    maintainers:
+    - email: lilygn6@gmail.com
+      name: Lily Gniedziejko
+    name: satellite-app
+    type: application
+    urls:
+    - https://lilygn.github.io/FleetCast/satellite-app-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-07-27T15:45:03.906884-05:00"
