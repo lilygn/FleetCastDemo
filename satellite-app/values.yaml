@@ -73,6 +73,13 @@ backend:
   affinity: {}
 
 tidbSecretName: tidb-secret
+# === TiDB Secrets (Override in values.secret.yaml) ===
+tidb:
+  host: ""
+  user: ""
+  password: ""
+  database: ""
+
 tidbCAConfigMapName: tidb-ca-configmap
 
 # === INGRESS CONFIG (PRODUCTION) ===

@@ -44,3 +44,4 @@ credentials.json
 
 satellite-app/tidb-ca.pem
 satellite-app/templates/tidb-secret.yaml
+satellite-app/values.secret.yaml
