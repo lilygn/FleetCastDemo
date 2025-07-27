@@ -23,47 +23,23 @@ helm install satellite-app fleetcast/satellite-app -f values.secret.yaml
 
 ---
 
-## Accessing FleetCast via `orbital.local`
+## Accessing FleetCast via `orbital.local:8080`
 
-To access the app at `http://orbital.local`, you need to map the domain to your cluster's ingress IP.
+To access the app at `http://orbital.local:8080`, you need to map the domain to your cluster's ingress IP.
 
-### Option 1: Modify your local hosts file
-
-#### Step 1: Get the External IP of the ingress controller
+#### Port forward to expose ingress controller on a local port
 
 ```bash
-kubectl get svc -n ingress-nginx
+kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
 ```
 
-Find the `EXTERNAL-IP` of the `ingress-nginx-controller` service.
-
-#### Step 2: Edit your hosts file
-
-**On macOS/Linux:**
-
-```bash
-sudo nano /etc/hosts
-```
-
-**On Windows:**
-Edit this file in Notepad as administrator:
-
-```
-C:\Windows\System32\drivers\etc\hosts
-```
-
-#### Step 3: Add this line (replace `<EXTERNAL-IP>`):
-
-```
-<EXTERNAL-IP>    orbital.local
-```
 
 ---
 
 Now open your browser and visit:
 
 ```
-http://orbital.local
+http://orbital.local:8080
 ```
 
 FleetCast should be running!
