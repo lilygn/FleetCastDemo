@@ -1,0 +1,46 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+build/
+dist/
+*.egg-info/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables or secrets files
+.env
+*.env
+
+config.yaml
+config.json
+credentials.json
+*.pem
+
+# Python test cache
+.pytest_cache/
+.coverage
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+satellite-app/tidb-ca.pem
+satellite-app/templates/tidb-secret.yaml
