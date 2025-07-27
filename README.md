@@ -67,3 +67,14 @@ http://orbital.local
 ```
 
 FleetCast should be running!
+
+##  Using the App with TiDB Credentials
+
+This app is configured to use a shared TiDB Cloud database managed by the project author.
+
+Please request a secure copy of the `values.secret.yaml` file containing the required credentials.
+
+Then run:
+
+```bash
+helm install satellite-app fleetcast/satellite-app -f values.secret.yaml
