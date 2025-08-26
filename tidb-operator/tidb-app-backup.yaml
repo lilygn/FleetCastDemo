@@ -1,0 +1,454 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-08-06T21:18:07Z"
+    generateName: tidb-controller-manager-68968d9cb4-
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: tidb-operator
+      app.kubernetes.io/name: tidb-operator
+      pod-template-hash: 68968d9cb4
+    name: tidb-controller-manager-68968d9cb4-4khg5
+    namespace: tidb-app
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: tidb-controller-manager-68968d9cb4
+      uid: 2115072f-5648-42d2-89df-dd93a8bb8d46
+    resourceVersion: "3332"
+    uid: 5efcb57d-823e-4c41-998c-ca7dbc0441ae
+  spec:
+    containers:
+    - command:
+      - /usr/local/bin/tidb-controller-manager
+      - -tidb-backup-manager-image=pingcap/tidb-backup-manager:v1.6.3
+      - -tidb-discovery-image=pingcap/tidb-operator:v1.6.3
+      - -cluster-scoped=true
+      - -cluster-permission-node=true
+      - -cluster-permission-pv=true
+      - -cluster-permission-sc=true
+      - -auto-failover=true
+      - -pd-failover-period=5m
+      - -tikv-failover-period=5m
+      - -tiflash-failover-period=5m
+      - -tidb-failover-period=5m
+      - -dm-master-failover-period=5m
+      - -dm-worker-failover-period=5m
+      - -v=2
+      env:
+      - name: NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: TZ
+        value: UTC
+      image: pingcap/tidb-operator:v1.6.3
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 10
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        successThreshold: 1
+        tcpSocket:
+          port: 6060
+        timeoutSeconds: 1
+      name: tidb-operator
+      resources:
+        requests:
+          cpu: 80m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-khlm6
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node2.lilygn-265173.aiopslab-pg0.wisc.cloudlab.us
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: tidb-controller-manager
+    serviceAccountName: tidb-controller-manager
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-khlm6
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-08-06T21:18:31Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-08-06T21:18:07Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-08-06T21:18:31Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-08-06T21:18:31Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-08-06T21:18:07Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://a60432fde652bc52d144966f1bc74a79bec6fd6c3e29ab964ea55564f6be47a2
+      image: pingcap/tidb-operator:v1.6.3
+      imageID: docker-pullable://pingcap/tidb-operator@sha256:30294147f2ae1e899312af437534e40759588e63d88169eee1de5f1ecb4d745c
+      lastState: {}
+      name: tidb-operator
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-08-06T21:18:30Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-khlm6
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 128.105.144.151
+    hostIPs:
+    - ip: 128.105.144.151
+    phase: Running
+    podIP: 10.244.1.2
+    podIPs:
+    - ip: 10.244.1.2
+    qosClass: Burstable
+    startTime: "2025-08-06T21:18:07Z"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: tidb-operator
+      meta.helm.sh/release-namespace: tidb-app
+    creationTimestamp: "2025-08-06T21:18:07Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: tidb-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tidb-operator
+      helm.sh/chart: tidb-operator-v1.6.3
+    name: tidb-controller-manager
+    namespace: tidb-app
+    resourceVersion: "3334"
+    uid: adccb4d5-ee49-4c46-ab22-d36eda7a3e28
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/instance: tidb-operator
+        app.kubernetes.io/name: tidb-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: controller-manager
+          app.kubernetes.io/instance: tidb-operator
+          app.kubernetes.io/name: tidb-operator
+      spec:
+        containers:
+        - command:
+          - /usr/local/bin/tidb-controller-manager
+          - -tidb-backup-manager-image=pingcap/tidb-backup-manager:v1.6.3
+          - -tidb-discovery-image=pingcap/tidb-operator:v1.6.3
+          - -cluster-scoped=true
+          - -cluster-permission-node=true
+          - -cluster-permission-pv=true
+          - -cluster-permission-sc=true
+          - -auto-failover=true
+          - -pd-failover-period=5m
+          - -tikv-failover-period=5m
+          - -tiflash-failover-period=5m
+          - -tidb-failover-period=5m
+          - -dm-master-failover-period=5m
+          - -dm-worker-failover-period=5m
+          - -v=2
+          env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: TZ
+            value: UTC
+          image: pingcap/tidb-operator:v1.6.3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 6060
+            timeoutSeconds: 1
+          name: tidb-operator
+          resources:
+            requests:
+              cpu: 80m
+              memory: 50Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: tidb-controller-manager
+        serviceAccountName: tidb-controller-manager
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-08-06T21:18:31Z"
+      lastUpdateTime: "2025-08-06T21:18:31Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2025-08-06T21:18:07Z"
+      lastUpdateTime: "2025-08-06T21:18:31Z"
+      message: ReplicaSet "tidb-controller-manager-68968d9cb4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: tidb-operator
+      meta.helm.sh/release-namespace: tidb-app
+    creationTimestamp: "2025-08-06T21:18:07Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: tidb-operator
+      app.kubernetes.io/name: tidb-operator
+      pod-template-hash: 68968d9cb4
+    name: tidb-controller-manager-68968d9cb4
+    namespace: tidb-app
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: tidb-controller-manager
+      uid: adccb4d5-ee49-4c46-ab22-d36eda7a3e28
+    resourceVersion: "3333"
+    uid: 2115072f-5648-42d2-89df-dd93a8bb8d46
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/instance: tidb-operator
+        app.kubernetes.io/name: tidb-operator
+        pod-template-hash: 68968d9cb4
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: controller-manager
+          app.kubernetes.io/instance: tidb-operator
+          app.kubernetes.io/name: tidb-operator
+          pod-template-hash: 68968d9cb4
+      spec:
+        containers:
+        - command:
+          - /usr/local/bin/tidb-controller-manager
+          - -tidb-backup-manager-image=pingcap/tidb-backup-manager:v1.6.3
+          - -tidb-discovery-image=pingcap/tidb-operator:v1.6.3
+          - -cluster-scoped=true
+          - -cluster-permission-node=true
+          - -cluster-permission-pv=true
+          - -cluster-permission-sc=true
+          - -auto-failover=true
+          - -pd-failover-period=5m
+          - -tikv-failover-period=5m
+          - -tiflash-failover-period=5m
+          - -tidb-failover-period=5m
+          - -dm-master-failover-period=5m
+          - -dm-worker-failover-period=5m
+          - -v=2
+          env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: TZ
+            value: UTC
+          image: pingcap/tidb-operator:v1.6.3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 6060
+            timeoutSeconds: 1
+          name: tidb-operator
+          resources:
+            requests:
+              cpu: 80m
+              memory: 50Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: tidb-controller-manager
+        serviceAccountName: tidb-controller-manager
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+apiVersion: v1
+items: []
+kind: List
+metadata:
+  resourceVersion: ""
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDBTCCAe2gAwIBAgIIIAElYezEGjkwDQYJKoZIhvcNAQELBQAwFTETMBEGA1UE
+      AxMKa3ViZXJuZXRlczAeFw0yNTA4MDYyMDQyMjVaFw0zNTA4MDQyMDQ3MjVaMBUx
+      EzARBgNVBAMTCmt1YmVybmV0ZXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+      AoIBAQC5Z5lk+2FzuNfWIZbEaPIAsFBzeFcafxwBZlECfWo8KRFhJ4GGIkHq3B77
+      DGabDBq27AjKE8tw9dnz8JdvvvLHMtYRIMqrdmF4nC4RoD2N1aam8Y1XGE36y2Yw
+      djeZHq+/CqD0jwvGaC9KA/KwlKKhIpwUGyPZAv4+Wje4fy1U/nsY/Ms7AJc2KMDW
+      sKrFV0tQy/GLCDt+zXWDSev4ta+voD1VO5ZRbpsPbIZgZukgXymvpxGrO6+xv/zZ
+      o8nQOKRg+sCw1DOTxiAd7tZRoKSQLEakr82H7jvStcC1K8IFxkiYfW8cyxM1S9ng
+      /Kyr+CypTgi2DpY09AgApLdEG7MVAgMBAAGjWTBXMA4GA1UdDwEB/wQEAwICpDAP
+      BgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSg65615xHnwhaVUgxxg473snkUYDAV
+      BgNVHREEDjAMggprdWJlcm5ldGVzMA0GCSqGSIb3DQEBCwUAA4IBAQAFiRXdwTyq
+      GY92RXC0gFmO75PEu6mUL0mzgywzaC2QFFfX7ZYeluj81+assNzCSY5YEvQ4BvQv
+      8g2EW40++pkcBwC5l5jvgmrifSxNshtK6xIGHRuxwV4j9ro6T57j+ddj3zrz/iYA
+      cBIsyjzFzNIP93qHjHTyp7rf/HZtcygcxzXvmStjN1th4OnA4wX7OLrWKa1kF3ZB
+      3hMD4UEPaWMue0aqA4lT0yfD9qaNHtWJsvqFBXMY16c3Nkgvg+bb620MQ1W5CY3m
+      EhNnozNAsk+8jw1VypycdlYi32dpRbypWB2vtYUQZsvtzuIgwCHKpLDuRHJZUF+o
+      MXQ8mSSlgKQQ
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2025-08-06T21:18:01Z"
+    name: kube-root-ca.crt
+    namespace: tidb-app
+    resourceVersion: "3263"
+    uid: 2062168b-eb03-44b3-8ae9-b3da87c2d8f9
+- apiVersion: v1
+  data:
+    release: SDRzSUFBQUFBQUFDLyt5OWU1T2lTUFl3L0ZVcWZQOTducTRld0xLMnJZaU5lSVVxRUV2dEZrdHV2OW40QlNRVW9NbGxCRlRjbU8vK1JDWVhBY0hTNnVxZTNsazNZclpMU1BKeTh1UzU1Ym44dStOcHJ0bDU2RVNPb2QvNmdibldJbi9kK2RSeHZGZS84L0R2enF1ekRxUC9OY3dBK29scGRCNDZGRUgxYm9rdnQ4VDlDM24vUUg1NUlPNC85OGd1MGV2ZEVyMEhndWg4NmtEdDRrOE1FNW9SYm94L2hHRHRCSkhqZTUySER1K0ZrUWJoRGZEZEFEWHFmT3FFa1JiRlllZWhVd3p5cWVQNWtZa2VUYlNWZVJQR2EvT21zaVQ4dWUrWlhoVGVhR3Z6WmgxN251TlpENzk3djNzM056YzNxMWczUVFSdkxETzZDWHdqdkxtOVJaQUpBdzFrUFdsQmNITUxiN1FnK0l3YXJ6MHpNc1BQanYrYmd5Ym9BZk9mbFFGLzl6cC9mdW9BVzF0SENJNnVHV21HRm1ubzd4YVEyejUrYkVkUkVENzg5cHZsUkhhc2Z3YSsrMXZnZUJiUWd0L3FYNFIrdkFabzFmOXovbGYvK3RUWm1Pc3doZTJHL0h6L3VYc0U4aXJraGlaMGIvQkNibDc5OWMxenNmak9wODdLVExiKzJzQlRLRTNNTTdmaEh4Q3RLZElDMUwwV2Fib1dvcjF6ay9UTldudU4wR1JjemZFaXpmSE1OZXFrQUE3d1h4UFErZFF4WGMyQm5ZZk9hNXlZd0RZOTYvL1Bsb1dXMlBuelUvSEIxalJYcnhvd1M5OEFXL09zWmV6aGY5dStlOVE4eDRRcWFqSjdMSDI4UjA5c3pZRisrN2ZRQVhiczdlMjQ5RjN4clByUnZ6NTF0TUFSUzVEdm9DZUJXTitMUHo5MW9BOVduUWN2aHZCVEp6TGRBR29ZdFEvQUtSNytGZ0xiTkdKb3JtK0I3NzA2VnZhUHF3V2ZFODJGR2VnN0R4MnpHMFk4QjEyZXNYMUZubzVWZVdXTm9XcnJReEdDcExkWEtCdXFRekZVWmQ3aTNXbWlTaXloem5ucmxhRUpWUjdGaWp6cThVeFBVcVFkcWNxVEdGQlRYNVVFVXVmRVpGeTBwd25naWZCNVRuL2hPVFpXbVlFUEtERXlYREdaVWYwSWNHeWl6Z2ZPdHlXeEd5K2ZldVBsSUpvd3ZEVmVUVzNBc1k0bTdRS0RnMmcrWTBNYVFkRVZFMERCamU3MGhwb3NTS284Mm10U1AzNmUwLzNYV1dBRERoYlB2am8wTlprRmEwM3FyYjQ2OUtOTzlWeE5NcWFLUEhqV0paRlFKTUUydUtkN3hobFlHQmFNWU90dWIyTndMSUcrQjhuZy90dDhFSXN1R3hxU3VCOTcwNlhHaVN0RDJrSGc5SlpaZjVFaTAzVDFPN1JXQWFvdVMrckRtYVZ5Y0drd2FINit4UStqZjR6bmRLQTZ0R2N3QTEvbnhQaDQzSlUxeWR0emJLeTdmVUtSaFVDbmV2dXZWdkFQTTZFSm5ZUzJMbTJ0VWUwOVA5eGFhTDJxMUNQNHg1bjFLaFBQUEVQL3cwd0lTNVY2SzM1STlvdjFvcjNueEYxNUR4V1ozcUoyQzFjTVZZbmRxK0tVVkYwMU1KbDBIN1ArWWtVaTRWY0g5ZHNLbnhMK2pMNmk5bWpzc1RUZDZLNGFxQW41RHpQcHpWVnBCeFY1Q3Nlcm5xMUxZaGxHVUI5T1lUNWYzV1VqOWNWSDgyN0QwUXIrdmFEMkNDZm1aTFpQb0JFT3VGOTV1bFdrYWJHZVl1M3pIcDQzNk5LMlFpMXlXSWFLTklMNmNJTHhobWRvR3d3SHNkWVZIWFFtVkZsQTh3cjBwRitDRVUyb0VyblZPWFFlQm81QzJUYndaakVlZTg1Yll5ZmJhMlpnSWZpUDNZaFVYREhSWFpGQWU2SkpYemE2eE1hS1pFQ1ZJUjJ6Z01NSTZweG9BMm9STHlneE1WeTR4R3Qrb3k5TjZ1ME5qbzBWYW5HUFlNMHo5WDNJMXpwQStMY0ZURytOemg1d2U5RGd4UDNZaFpzeE5kM29NcjNSWFRFMkhuMnJEUHNNTHI0cTdhS3hOL1hIMU5SWDVCR1J3M2VXcmIrMFI1WG5oek5PZitHSEl3aTRIWVkvNzRRT3p3d2NPZUh4L0ZTT0paUVhIKzFKR1E4aWhlckhxZ3U5c1lmUHlEMC8zRWFNRi8yREh3b2s0SGFRWjBZNVRtemtiaGxuQzF5SlRJbU5kS1pIQUc3cjhNd2Rvbm1CN2s1RFF4TFE5K25hWkdHalU3dTFKczlpQTUyLzRTUTJPREZDOHpXNGhkTjBGdE56SjhacWVyNy9XV1lkQnhJT2ZDOWEreERSY0Zmek5NdGMzNjUxRFJ6VDc4MnpGVHlodlRPNGhRVTRNZEVsdU05Z0Y0Q0VUbFNaSlRWNUJGVTBmNGYrQmpneFhsQjJvSG96UzNIRnBTS0xlM1ZPZDlVNXZWU2tPODlnNkkxQjNWbkFGZmQ2VjB3VVN0enpRd1B5WEViUHBabWxTWXBsVUF0TG9kaDQxRVgwRGNGZGdQeFE4RldKaUJuSDN4eldpbWdNcHZzbE9qRnlGR2tTSzkwUlZOQjN6ZndIN1FVQjNINkl6M09HLzhBWk9NVjNHRDhFaEpjMjhNNzV0cmNFcm9qMnhqS0dJMUtkci9DZWFCU00xVWZmS3M3UWdsMHFWSi9VdmRtekl0TkJnWTlMM3pLV1Q4Mjg0Nk5wcVR2ZDZKNlE2TlFPMGMrcEl2VnNsUktUc1RlRndGTURoUkpwaFpwdURJUmJpSzdLcDg1eFR2ZDIrNEkrY1BoOWZ2NFBjNmI2c1RFY2JYUnVCOEdLdEhXWDlWTGFlZ1NiVnQ1eXBha2ZRMU1yZStHUVVZNERQNHUrSHVURE1uN3NTTkFWSUlEVHBkNmxZVWJIb3ZIOGNJNW1SUnMwOThYUkdRTHV5RmFTbm0zSWdxOTNSNEhwcG5MUDJBM3ZzbjFHY2x1a3lvSmRvdkdWYzFMSEo0UjdYejBoVUxtVS9yZkJUZWRZQjUyRHI5WWJ1RkdTTjBvMEhjbkJHTlpqRis5cHlodmUzTmZzSEVtelNQRld4L2dCOHpOOURvN0FHSFNSdkRnOUNZczN6dEZTcDhpdFR2V2c3czN1ZWE1TWEvZ29QeGNnZzVIR2lhRSs3KzAxcHIvVU9EWkJ1SW5QeWlxRHhRRy9vOHB6cUVMZ1RRT2R3dnd6VVdWMHpxZVFaL2cxaitZSHZ6aDRydDRJeVExb1R5SzBibTFoSkhwWDNJSzliMGtKNzhoWUpoeEJRUFZKNEU0aDJDTjhHRVQ4c0tDRmU3UmVKRE1hNk93TUp3aGZLRlVlT1ZrZmYvQ1FlQjdQYWFRZkRJSGJKOEZ3Y3Mrem9ZT2U4M2h1MDQwaGo1YXFuRDVIOUF4dy9VRDNoRDN2YkoxY3B0QWxkZ3VTa1lIR1F6cU00cVh0RHp4cGEvR3VBUTJHRDNsbUZHcnlsTURQUE1NMnVLbWYvaTF1VlV5MytKQjNCVVJ2Q0hXTytpUVFQZ1pDZDdReFpIci8xYUYxSHZHQjdtaWxTVDNiNExEZXMvNDZ4RGphQkJkTFNrWXBMc2lUN0wwS2dUdksrOHAxT0RRM1Q1Vm56cGdaT0RvSDk5bDh1NG9zTExYMGJ4SndBcFpqeHN4b2xja1lxTTl6OXdqTlphL0tJMHFUcGxDUkVMM0FlM042WGpuc0xvTFJLSVZ0eTE1cWJ0OXAyak9WRXRPOWNYY0I2S2F3TUNpV1VDZ0wvMTNaMC9KOHZnY2UwalJSWldHZnpiV0VvNk5jTmtubklkT3JNL0hKS2VTdkMzRWN5WXVBZ251RFEvdWlidlNoR0tuU05GUWtHUDBvZUtGMmdFdS91UkIyVzUxcWhOdHBQTDVvMzBZMkdOTDdWbmgxMFhrUVhRUEpVWEpLRjFSTzNPcGN2NmRMS1c1ak9KVDVqemVDaGd2M3FWNS9ETk5ucHcybnhUdTBMNWhuZXBNMm1BUzZhNkI1TnA5M3gyOWJKK0lGWGIwN1dtdFN6enZ3M1hSK1pkay9uUXVNMWU0SWd1NFVYcllHZGd1R2t4aHdNRmFwcVEwWUpKY1RyV2ZEUVBza3FTVFMrM05ZMW1FKzdrNEpSUmJJaStiaElkM05XQ3J5QU1tM1VkditwdDgzOTZtN2ZjUm5jN2lJaTlVdWczRWZ5U21KSmsxYmNWT2VCVmhHUm5wVFNVZHhFYzB6NUJGTTdVVzJEWktCTTVNRVNwRjZTMVVTWGdwNHNGTm9QSkpZWitCVHViYStweWsvNUJyaGZiVFdqRmZXNFYyZWU5b2ZBLzRZYllPYWZOOEFYNmNOYjNvYmxSTXZQTE10ZTlnMmhrZGpHUVBKbTdvblVEcTFJM1ZKdkp4T01LTnRNKzhyMGJVVytncTZ3Z1lnK1c3K0ptL2VHMXcvUWJLVlF1M3N0dk4waXM2bXVQVGxEMmJGaGpyWDc5WmtONnVRM1J5YTBCTWFBbXBxcHpvU0hSakRpUVdHbzhCd1lhaWlOZ2x1c3pFNEc3WGZHOUxvRDFXYUVpRFpXdWdaUDV5U2lodEFwU3ZzZVk2MHpUa2RxN0tLMnZxS3JFSitTQ2VhckFZNkozcnFuTjZnTldBYndKeXU2TjlqSzVpcmtuTFBjelpoRE5GK2Z0azB5S1FyblpydXg5MFJWRjB4VWRFWm1QZHRoWnBDMEoxRWlpd1NHbmVYL2p2ME42a084V1ZaWHM5WUV2Y0t4WWFwTGZRdUFzTlJLZzlpdVFuSjRMTkljZnNiWXpnbEFLSk42SnhzL1QvRzNSYTh6dTBVZU94K29zbkJlVElZTlEwTmVVcW84Z2p0Q3dUSkx2MlhQTUxKMHY0Z09lY05PZWh0L3BVb0xyc2N1eXhwY1BZR3VQQStnMFdzN1cyc1A3VHlOcmNmcWhMaUp3S2lsWm5NbStseEh1SmxvcU5KUFNTSGVtL0l2em4rMW1TWWlnd1hqY3QyK2FHSVpKQmtnZWF3eU9jQXJucmpWVzk4UTI4ODBLZFVkNHdDM1ozZDgreXhqZXhxcC90K094Mm1FZUlJcWt0OHJwclA3L0djbTlaNmIzQndwYVQyOWdPZmtJcDFQR01jelBuczR4bG52NUJUY3RpbGZKSWZHcjRxWVh0MnJISmlndWhYeHFOSzlrTWtIKzRDM1YyRTZKMG1UeXlWRTExTjZrR1ZLYldUSjVZaWp5RFBqUGJHRU5FcDRJd1plcThuMkg0ZXE1SzQ0b2ZDaGg5aW03cWx5ay9XczVQaWtNTFF2b3EvcmR2Ryt3blAyQkRNQjc0bTlaYjZVRnlsOXN4bVdqUjJjOTdDUnhWN3Z6ZUpkYmUvUW5wQWRsOUJBQmRHUExPeWVFOUlER25oUE04SFBwNFRCN0VkVDAzcFV2TVpkdkJjOEw2T1pSb0Nsd3hBZDRydkdNZHRNcGN6aVBuaDFzS3dtZitJY2FlRTNoMGhPQ3gxanQwRDZzU1lNdWJwN1h6bStLNzRUZDQ1N2lvN3hpV2h3YkdJcjltWUYzd01ybC90MzcrZy9SdDRZcGpyU3lWZmlSOTJWcC9uQXllOWwrS0RuRWEzMjNNR1RmcEZyRk5Db1ZOY3BuUGxheXp1Smt1K0NuOFYzY2p4cmwwZlBOdXVsZHRIbU8reDI5SU5OdHlmQmJzTGFOOHB1Qlg5TEdvNndlQWlmZlU3Y2V2RWZaSEk1SG9HNDdKYlRTeGt3WHQrK0tZK3RtbTZuNjM2amh6b1cwRWZYZ0pDa3dRSCs2YTB5Yk9JUnJoaW1ObEdUdEN3RWo4WUNsQkhzaXUrNHg2bE1qRFR3elE4M2JzMzVlMmNscXpHMHFqWElLTzk1UGIxTS9vS2RHOUtZTnZTS1ZpOFFlY1Y3TFBWajFXcGgranRDWjZHWUdSRG5TTmlRRm1iakQvbHZPRXhnOFhCTDBpdVBDLzRNc0p2NElxSXp5MFJyWDFPZUl0blJxK3BIU3c0MkN3S0c5aHBIU0NYZ3pWSndmSlp5UjVuZ3lFTmRWY28rTmFpSzdxcUMrLzRJVHBYWWdHYkZsK2tOcCtENGc1a2x0K0JNQWVlZEVJSE85WUZQbXJzcks4am1zWDhYWFdDd25aWmxnZm5PcldEdnhhTndUNXdlNEJ3dmEydmJHOEtIZTVxbC9pNzNHZGpmbDNvNy9La2VLYktLcEtYOW1mZmQ3VGE0OFZZSGRKSVZpZEFndTJOcVM4bVJkcGcrSkgzeFlNMzd5UVZxcjhCMk01WHQrRzF6VDNGclo5Njk5NTY1MUR3Rmp2bkxlK3dpYjROSTdlNEoyMlN6ZjdRcWRGNzdqbE8zRE8vSHg1b3JjYmJPRlRGa1RmdWs2LzMybi9IZSsxZjVFNzQ3M0MvL2dIMzJoOTI1NVhrZDEwTjUwdWVMaFZwbC9zU2xlaFBqdU9YOFk2Mzc0SGE2TlFIMzJONWhZNWZ1ZzlRSWNaRlYweGpNVGgyenpNaldoMnFXTVpSV1l5clVQWEVjRUdKeERjNTFka2I3OWF0UW9mZmdxUzNSWE5XS0hhTDd4emFmZUtLL2dFbEVtQmJ3dG1zdjFIaWU5bmNvZTZtOXdQak9SRXhicTQ3L2NwNitGVkd2dDdkL1pmZjNhVjBEUHRVSU5nVThRdS9rcTVkb3kvTmNTNkhVTVhBaHc1SS9qTkNGUitmNHNuTEtwNHd4SlozQnZHTVlyZUtOQXAwRGhJYVFxc1ZKaTJGQ1d1OE1nS0RMWTVGd0RQWFVNWC9pRkJGbWQ3b0hGeWE4NThXcXJqVnFWMmdkRmZYc0pxL2I2aGl2c2V4UXFuZVY0ZitNcDZsNThTUTZUQy9Uc1RoaTJTL0V0WUl1SDZvU2RQZVdBcjJPblVYRzBNNnpLK0F5dGVSS2VzbUNaM3FoeG9GaWJFbkVwcTAyNCs5MG5VRW1pOVN3WkNLekF5STgwbjIvOW9tRE14MStEa0s2cUdJRGsxcEVuSFBJMVdOb1YwTnFhUkR1RlZmeU1pUXA0UWlUWDEwTHA2ZGZ1R2V3YXpFTzRCcExVMW8zQ0xGOFRtOVVaMzBkNDUvMVpCQ1JLOWczSWlmY3JHT2xTcXB0aUh0aUtQcmhoSU53ZDh0K2tqdFRqUkpnTmwxR3FtN0UydTZuQlJYczhWVkFNTkh2RE9JcXFHYzZXODhidUkvejNJVmdudkNiaVNLTElZSUhvYTBDODA1dlRNa050UWtOVkNsR2NiN2pGM0hERFJnZXRYUVc2YmZzd1QvcU94NUR1UGtudWRHVUtGWUVsQUxDMUI5QktkeEdkZXpmaXpWaFZEbmhEMlArUlVkYWhJWkdGenVtcEs2dHp4em8xN21CdlAwQWljWTdxbHJ6SFNyU3BOZ2JHVnVrUWRZQnJxN3NQak1WVTd2MGhDNExLRjMrUmlwR2pxWGk4Wmt0cmVFTmNybTgzVkpsT0JRUDFObGNRelQxVytJM3dJWElsdyt3SGxJSjVyVUkxUm40SXprU1RUQ1YrZkh0Q0FmOHpYbEFiR1NES2hKZ3NORUUwMGlYd3hKZFRYWnNuaUhxTXdWMDFuODIzOCtoTldtYThhdXNDVWVhZUQ1SWpqM0U1NHJydml0MmhVL2FwZG9FdXZvaUE0NTlFTGp4QjQvblBwNlZ3eFZobmJVT1oyR29Vb0RTL0ZXRlZ6UnU3eWx1T3hTUzJnc3RpT2VxYmd3MUdTaE43YUNrY0hRZTFVU0k1RFFTRlZKZEpkTlRHbGdvYjFGUERZZFowU01wV2tBM0NtcHlUTkxsVEV2eWxTMXJRV29MNVV3WG9YcVJ3bytWM1NFem8yRzZWR3RmNm1IWFlZUlhIUU90MDNkbXRJemZPUUNwVW1xaGVnTTZBcFFrVTZkNCs5eG9UanNveVlwV09XZVUyTHZESkVieVlxNXErNU1sVWVSSms4emsxWVJBbmxKZjZYd3lPcjFQYy9rcmhudE11bWxmWTV6OTNwTU14Ymw4UElRWkRJQXhxL1phZEg4Nkl4L3JHdEhWSFYzczIxQVJOQ2N2NjJHNFREOS9CcXh1dmRPdm81TCtodTM3dldnMVdVRTg0TWMvNzlyak40V3kvcm9uZFFqRExjZkdraGVTMUpadGJJdnVTeVp1blBVVWdiVTl0TEtmbWZ1aWxscWd5YVY3b0JIRHJtdHphM0J6YVBDUzVFT2NGbUlmdHM1Y1BJMVhOSmZydzBQTEw3UkxlYnl0QUF0L2NkRmFJYzBEWlhVREp5bERpanZSZUZ5aXZleWZyNXExK3hIdE84OGVhMTBqaGdoZFNGNTlQdVpESGZITTNmV2hLbTB3V3RWWlpzNGFqZXZ0RVByeXRxTWtIeHVqVkxURURTSHMxZzhtTUZLTGlJWmZ4OGFpQjhqdlhPRmFSY24zaGxNYjNIUUgzTFRWTVdGWTRYMnlXQUdxMVJtSytaU2xtRlhSbGR3SzJ0b28xdEkzcXJ3emkzbWFlZ2I0TEpJbDhWeXBMSGNSWW9VYk1EeUx2N0drWUh1OXBOdnp0Mlg3TXJtLy9KREdza2tsdXFOTnZvOC9XYU85S1NEMlRQa3VVV3NKbmZQNHpsTlRlWjN1Mmx5dDN2ZVQ5MnBxeEFUYm1hTlgrNHNZL2tVVDE1QVBKa1AvSmN1RFhVNDlUVkpKWjVuZnNRUGxkMTQrVVNPbDArN3NXU3NWZFRIZkJCOWM3TCs1bmM3OUoxQVJPenpyRVgrd2pyU0lxcmFMMkNFOEZqdUNyYWF0TW5BZHFKS0JqU2ZVRDh6aTRjOVNtWjNxMmR5Qjhad0IxUW1BakxUQXpJM1c3L1BwdEZtVzhIZnZaVDA2NUV1c1o0cW9yazJ5OUhOZW9kbWJEUVBtTVp0R0dtUitSckQwSXhha3FJY0p5MW9DcXJEV3NvaElRZ2F1U25aeDZua0lLY04zQWZIb2lialA2QkVvczNRZU5YMlA5Q0p1Tmo3V1ZTOU9KeFZBMzUrbHVFN2RVSjZwL041WmlSL0txU016SW1weFNtZFkxZUdpK0FwcnNaeURmZXFseXhYL1BsUHdaOTI1NkozQkFFUHZHY0h0QVQrdHZUUEdOaVpZTFJ0dVlCa2pJcVVCVnlSMHVSVStodTFYVWEyWEh5T0V0QTY3OXdwQ3ZlSjJuYnBqVHFjZVBuNzAwNGdJSjlyaTFUZURwUHhuSGh2WU9LYkFZOXQvT1FpSEx3NktqYzVLaDk0TUVOV25VcVk2aVhZVHdzdXFUck9YbmpaaHZhNWhSZThDMitxanRUamVlSEkrM0xrUUR4NE4zK0pTekpMQzMzT0x2Ym5oeUNCN3p4ckg4a2ZMNTMvOVN6K3A1ekZJdERySFh5b2xDanFZdjVHdFNaMzhvNGNtSXB2Y2tmWUg4cWo4TG1adVRCV2NaS0UxcUQ2aS9ieU80TUwzazhqMlRRUjNidm1mYUdqeXZ0NDlvVk9UV2ZkMUdtRzY0U2g0M3VIdjI2M3BtNzcvdXAyYlZwT0dLMjF5UEc5OHhUb3dsd29VcUtqY2YyTmxweFdudEZ2NElvZUVxN0FhV1NqRjArd0lFcnRFYmJLVHBGMlc0MTcybzFkZG5YSWROcEx2Y1pxM3BCWEpmcERsYUJpLzhleUFSWFgzdWhVK05PaXZBQW5MakV1REpzOExrdTRBSXU1eFJqL0NyajFFQ09EU2xkTVZIRzYxbVI2OGNKTzBmaUI2cTN5dlQvVjVqNjdabW54OUpyYU0wK01WVzdYNEdWMjF2eVd5bUpFNnE0UUZuME9xNGVjWjJndkozNlYvVWl2WkpzVXZyUTlTeWVhMUU4MFdlaTlTRERXSkpMVVgzeHI4akxZVGdZWnc4S0taMjhHWExnQkxpUk0vSDZSTTVpRGk1TEVob0N6N1FtZVgrSEJtSitWL0V4a1hwemxNMHAyVlduazYxUi9YVzU3cVRCNEFXMmlGR2tYcUptYjB0aXJldDJDcE5FRnkxYTU0cW9pVVNVakFGMGhPV21JWVZWYjUrQUt0M0VOT1YvakxIUGhNT1JSeXRpdFZnWmFuYWVjWHEvWEdZWlJySXRjcWk2NENxTWZLWXdXZTM1M2dQUDJaeGx6Y25vUUZRSmVMa0NBcnJBLzc1eWp2ZXc3bWlzdURYYUs0TEUwdUg2U2V6dnpEQjNocUpHbjJ2Nm4vemxuOGFRNWY4OHpvK3hjOTdjcXh1dCt3dWNlMWFWNUxseVIwaVN4VzhnQ21XZTlzWHdxSXZCVmx3MzBJYUt6bVl0ZGs5SDhjQmFMY3pWMlZWdVRkaVJ3eFZudVJtVzRiS2hobzBrbTZKZGNOZmdWYXI5MVNyaTExeVFCQ3BMcVpzcXU5ZUwyWXpYSEdXb1hJTHpJejI4SmhrVWs3ZUhab0tSSVZ1QlhnbS90bkI3bVZtNnpWV1RCLytvTW5ESEZialY1c2psajN6ZkdrclgxSWUwckwwK2JXa1JNaGFhQWhDL0d1a1MyVTZRYVAwcm5ldUJUWisvWjFGWXkzbmpZaDBHajYyUUswd292alExcEZ4NTlVL0JFbkxVZ040am0reEx4WEk2akJmNVpQQlJud2hPN0VPYThKYy9LZTFpUDNrblBCRWdhMmhYWGdiMHNva1RaS2E1SUtDOVBhZFJZQ2NmYk15cFVJNXBLN1Q5bzNyVklrWG1lc1dHUTA4WGcrR3dXdVBRZDYyaU10bTdLZk5tTUoxNkpsMUozQjN4blMyUC9Pbno3QU9PY1o1ZVU5YkZjN3YvS3IvOGIrSFdKRDhWcUJjZnY0alRhb2lHQzY4bzcvM3JlbWI4cjBiZ0tYTHlKVStNLzUrbWZGT3NZVW0rbGN5VjlHOE9KWmJMbng1RkJsL0hpeGd3aGRSNnRlMktvRCtyZkhNSUtlSVpPY0JoRVNTNGN6K2tONE1Ta0NPVkF2STRaaVlzbmdSYWYwaWpOR1RsaVo2TEE4ZzU5eEY4cUVhWE02THY0MFJ0OENNdWtoMHlsSDhDSFhKSTBDcjB4dHluUjg1THh0OW5lVmRxN00rMWVVMFBPNkFWWjBKVTg5SWZNdjIyM2h4WDJyaWlMNWlvYnFLUGNKVXFUaFZqZFhpTW5QeTV5OHFSZDQ0ZGZWaFE4cjF0azhzNWxrc0xkSzQwNlA4OUdpdFpkT2dkelZWWURWVFlLK1NvN1o5U2tPTGUwcTBnd05PUVJYR1FoS2VmYXZJNTQxN3dYWldmZ3luOUt0RTJYeFVPWW5GV2wzZWZSc0JhZDZ6MTJ5aFkrVm5jMWIrUnZYSS9VdVczOW0wckdxWEtXeFR6alRSNWVjc0MvZ1NPSzlGUEtiN1lXdjVyT2hjVjVPbEZqcG9tM2RMcnNucUhJak1jMFp4ckVkUGZnOG8wemJKeDIxLzduUDkrNnJBblc1bTFhK3ZaMjZldHRsek5aZk9vbGx6VFA4N1BhMXd5bjJLdkdPcU84Wm9PbndPV3B1SytYTm4rWFM1dW1lT0RzNENYMFF1UGdua2YvRFExZmtXZEYvQUpJYUFLL0t4RkRubVAzUFBka3BmaDVaNGtVSkRTdVQ2YSszYWlmUStybW5CbndDZjJIVHZFNEhrcWgrakdnNEVwTnl5QnVFVlBtdWI2YnhiOGxCWnp6K2JrSDJLUmo4a2pZU3RRNW1hZlp5WWpDcU1Uc01XeVJRaHFvbEUzd1M5L2lIV0xIdC9aWjlGWEVkYUp2RkZkMDllNElqcVcwdnl3ZENmWS96NzdiRzlKMHFVcmlTcFZtK1RQTWtGVnBscVh4ZUYrNmpyYnliUmVuOGJnYUwzNU40NFV6c0JTcEYrdmRRckhObWU2U1o5TzRVUFNmUWRtMndlUXhCemkrREw4N0dMZ1dsb0xPMVp4T2hRMkhsalhzaFNFU2VkczBOakF0STFLTXdRVWJKUzFMdWtUMEFBbHp3QlZYZWV5RlRpbFoyWkVEbkxOdm5SSnM4SmpvckNDQmFTeGw2WGhtcmVlc3EwclEwNFl6Qnd0cEwwOU9XNTlGWDRjNGZPZXJRenVxcEc2QXU0anlDN2lVbjZMenMwdS9rNmVrUWsyaEtnbFFaYkpuRWphMlFIVVFsSlhyeHRSYzV4Z3ZUNlRvTGZIcm5sZmdGSldsOXVzZWxQaERIK1gwYlBXeUhQNnZrNWIzU2tldWRPUktSM0k2OHA1VXgyZkoyNWRmVGdRNDFkdkNGZDNVSUhXZ2FlZEVzcFJURnRWbGpiUG1iRFY3T0dicE1pdXl6Tnp0TyswR3RFSW1qbFJPREsrNngxWDN1T29lNzljOVFKZUdDcVpOSmZ4K3lmbDI3UXd5RmZwVUdGRXg3Y3d1S3c3OXRWMjhwSEd2aTZFWTZteVJnclppak5Ja0V2SHhtU0h0d2dVbElwcUw2V2RxcU82cmlrU0daWnRJWS91a2tpdUhPazdSWHI1TXlXUzBybUFEVDhndjJ1NzVweDQwM055amZWQnluanZRN0pkejVLSHNna2VuZW9RaXdSaWRoNHBSczNRaHlYdlJQNDROL0dSL0xDSCtpWEJnNjVRdllyQURwTVI2NXp0MkJCdGxsZTVCWmYzbHZrU2ExTGxkQ1E3UWZYSDd4QUtmc1N5YWhDbGRCbEY5bkc5Q2ZhdzRLV1dYVWdNSFVGWnR6dW1hZVlkYzhwWmZlejZJK09IMnFKL1VJRHl6eHRLaTZSMm1iVXBYQ0hrdTUrTjBSY1l1YkdYRXNZeGRNYUo2STZoU2NHOE1SM1Y1MktwZXZKS3BjVjZtTnlwRGxzN0MxRlVUK2t1V3l3WitnTmYzaVhEcEgyZFF6QVNDUE1uZUlLMXRjNlJFbEwwekdnU2EwM1dYM3BwRGV4MkU2NjNZMytKVzdKY3dmQlg1YXl1d3dDRXFWN3o1TmZHbWZQdDBZYTJ0eHRCaGhkclpta1MyR0Z2ZXFFMXdLbGQrS1NkMnN5R0pMMjYyR21va2I5UmhjLzJydDNMZkY3bXYzelh1b1M3QU9FMU1sQ2NoUFE4Kzd4blRGU20xVkkraHZjWitxZDV6clpaWFl5MEc3Rmw1b3VaWVBZZitlL2IvakhtMDNXWlc0VEJBTVBxamNRNXB6dnJtMm1DbmN2TTM3MjgxMTNnanpOTjVWUEtMMTBLV1MyR0dQN3NtWThXUWh2bkU0R3AwL0RVOUx5dGhtQmgvVDZYbXFYaDRmSytNeVB5Rm9hc253dnZmSjRlY012SXZmbjdON1NJS1RrekdFanJuMXRXbzltdEdZVjV3a2RYaThUeHY1NTgxNzBuc0JZMXJWREdqcVBDUzdPS2FNOURvdmxITEUzNk1QbkJ1ZXBhM3p1SFhjcTBaaDBTMEFOTWFWZVpUbnNPSkNGN0xqTGRGU0VaUm0wUG1NWTZNNVdrUEo5cThYcEQ5b3J5cVdwL2hJR2NOenNIQmNoM0ZJNXF2eWpiU04xSWFJTEZiVGNiNkd3UVpmVWZyMTZScGJsaEMrc1JLbGZsbjBCWFRDTUZob2V1Y1R2SENuRWhuMXhpOTA1N0s3aTlLL1hKeG1xVXorQ25pVC9peVNKVU1IQUY1MWV0L1ViMytKOGhmb0l2VGkwVmYzUWE4K0ErVFZ6L2VmbFoyR0htL2ZnYTRWWFNWRC84ejVNTy8waW5nbEQ1eGd2ZUpxRzNOV1NLVnNjcTgxYnJjaS92NDhpVTAxeHNIbUQ4bzIwNWpxdHAydmV6TkRCMVhSNGkvVytZY2VnTThvWkJSU2xGRHZqRVV0aUE1N0QvUFRDeTlTMk9lcUVpSEMxVEE5YkdzUEgyYzdROFgyWUlOWEFNYUxPcC9kczgvS3NUMGNmS01MMWtSN0xyQ0JpeC9xbTd5RS9XSmo2QUxoaGxBUDNGTkwvcHhpYmkyb0NvYVB5SFZSZS9DU0QxNXRacVIxRllVdmdhMS8wMU1xMXRWU3NsMlNrcmdVcEVuNTRxaHVGK2tjcWJKR2RMRVVQVWtOTHJFRWdwbFQ2b3M0cVAzLzZOVW5JOGc3MmY3UUlWSE1QbG9GWkw1T0h6K01OWTNQT0JjUzJCajJYL29SWldtQ2I1V3EreFJvLy9YUGE0TE14UTJrc1JHT25PR3Z4aERCN29ySUxYVm1wWkVqcVpneFhJd2FhRjJQWDJjMnBiV3VqSUNnN1BPTXJrb1hSRW5kcHNWOVRkcWM1V21KRTdvdGlocWVoekJwMXFIMFNvbDFzbjlqWVNMZmM5TzdqMVQzYi9qUU5SRGdxazU5c2RiMUhDNXZ2ZXRpVENhZk5EUWZwZnFZb3hHNnFxM01WaHNra1k0NERUNHNpMTFDdGVrV24xdDhqRmoraVRvOGh1ZDZ5OFZhYnRSWEJpUHUyL3h6cHJmV1VManVtN2ZuTUZ1OHNnVHFiZzJTLzFLcGJ1aVRoZE9kdVRRZ1lIT2MwTEhxYm00dnpFWTlIM0p2N0MwSitNNW1lRUI5dmRNakVlQ3FvaHdURDI1QlEzQi9HTVRMS291ZXhRb1hQTHJpOGF5RUlLRVhLcUloa2xxb0hPTC9yaXIyc0RwWitlbDU0MGxwSTdOTmdhMzI0L2RhVkwzSFV6M2dvandlNWxPTkZsRnRESFNLTEYzWHA4Uk5HZjFQbHQ4UEt2d3BiN0paNTM5VUtlTUNjNWN6OVJvYW51QXQ2dEtMR0hJSTFqdzE0WTFxMGorRzRxSktrLzZ1SmFPMnc5MForQ01HZjZDdms2dGxRNDFORzlYM0FPU1RuUnFCSS9Qd2lFeGdNalo2RHo1T3JWYmZYVUc1QkhjT0pzd2h2UlFsV2YzeHpCRnFnWkxhSSsrTmFac3FFZzdRaHY2VGI2YVc3MDdJcjQ2ZzJaOFJ2M2dXalJZemVGRlZwZ3R0a2R6RG5RWEVwckVoZ0luaG9vTUVhL1o2SzZ3YjV6M1VBaDBTZHdZc25DaUhZM043dGludkR1ZEFiZnZGREpBNmI5RE1nVEJCNjY0MTdoK2lOVDM2ZkcrWUJWTm9FU2lnZjRnMWM0Mk9PdWVaL3ErS3JHaHdka3RNTTNVdCtXTW1HeWIrc0UxY1RIOW5yUENZc0ZPanVhc1NiM0E0S0N0UHdsUTU5amVnaElSUDFpQmZlTzhDVTBpb2Q0VmlWUHRWS2xIMWRkVlVrKy96aFlrdXlCcGVrWWMrK3VtdFJoRkRyajlxQkUybkJxbzBtNVZtS1dZWTdoazlUSm5hU0lIK21BeW1mZksrczF6L2R6bnZFNWsvWlo1SGNzRUJnY2pWUTV3L2NRYUh4TEZwMGtUNzhscjZVMnhyRkNURThzMFE1V2Z6dkRaTHN4YWdVSXRZazNxWmJ4QmZORW91QldmZGk5SWQ5UWt0Y2R6cUMra0w3VFFIWTdFMXp5TC9LdzIwOWFtYzV2djdlbTJiUWtDeTNzZzlVbmR5L2R1c0ttWS85emRScUhZRUY4OXUycWdOdUg4b1JKQStTb3QxS21wcmFlWndGMU5BczN6S2ljaHhIdWVWUThwSlZKcXJWM2R6QitLcTJFa0g0NWRHQU5LWE9KRUsxUVVBRmFZTEVnVkFoZTY1aHpSMnQxZW5RL3FQRFU2Nk8vcFB1c3VpQlFFa3hxL0JGbDhRd01kTC9EeVJlcXZFSTVQSC9udE1TM01aT2pMNU4vcUdqMGhCR1RXRDNOT2NpdjAzOFRDTWcrbjdubU90RTFwaEdQOUZHa1c2VlF2Tk9kcERUamRGYUhLMElTZTBMYnUwRWlISk13NXZkSmt2dGlydEZZcHJpRUlVNzFWaVFBRlBkMFZWenlINENjRXFndHRyT013TkRTNFNWeUdRNGxPVmE3MU0xa3d5bXM1MTg1c09wZUZFSUFsa2xtSmt3bFNjbGdZRkNRMDVtMjVETmRGRlE4NmVGVm53alZEWDhxbXVXb3N6RjFGSC9yYXVDZjFlQmQ4SHJxYUxKd1REa0RvMU82UTNLVWloOURWZC92dm1OdFpzUkloc0Uwamh1YjZIQ09jM1ZTd3NseWd1K3kvMjFya3RWb2NMMitmQm5nOGw0c3JjanR2dnJmMzR2SnA5M1dPaXl6NmdCSWpSTmhtMkhqRUp1cDg0SHhiRXJ2eDhxazNYZzZpQ1JMMlZsTWJjS3lqU1R2RXFORWNjWkhvdzcxcGI2akpRbUUvYmtuc2drczhWVXVPQ1JCd3U0MkpHSHBENmJ1L3JraC9jNURUWVU3bERFWHZINmZVMytGd1htTkhQc1pYWUZpQ3YvVnJHVDByNTlYRC9nYUJRckdGSVFwUWFPMklnZkM1TWFzMTIvWkhHL1UrNUI3cmZDTjFtZFpkRFp5UHZsWEdqVU9oNUZhNnN0VXBnZGJkM3NiZ0dwbWZYWGwzSWtpMWlwUDBSbjJxQmpzM0dmUlFYN1dzbjRlN3daYk00TlZ4VHZsM25UUWViUUdpbVd3T2M3RW93bzhMS2N2bFBvN0hlSXRXTnhwVE01K2hrd2IrTnVYaW8rWndVbWhxZi9aaFJ2Q1VYLzI0SU9lMFNMU05qUnhlTFh0ZnM5OWdtWDVVY0t2NURMN1hPTndTZUZ5ajZ4VVk1RUh3dzIycGtQVEFtVXZxVjcwcnpJQXI3dkZaY21wenJKVy9QTys4VnJLWmwyRyttOVQ3UnpER0JkeVBqR1FuamM0VnVuVDAzYkd4c2lxVDdqWXFzWU9HSzRZTlNqZjZIaHZkdnIwOGJTZExwZEovRXcwcEdTWWJqTCtFTlpaVXFNZ0NpV0NNNThVRkcwMjZzM2huNjV6WHowbWxCTkVqQkQvcm1ldkJOa01NRDhYRkxPRURuckZqdFV5N1BHenN1MGR5Q3Mvd3p2TVJqb3F4c2ZTYmxXOVcwT3FHSER6MjhibkFSakxUN2NmcXZKWUJOWjFYVTliTm1vSllHcGM3TGhCZW5rZUs5L25GNmdnQ1dReHc4aHhtVkRtZm1JK0tKVHFYQmZwblp6VUFDWkt0V0ZMRGlTMzQxblArUmovOTE1ZFUzNm55K2pPS25Edk45T0puWEFoVnkvSUYySTlKSjZHdFM5dDJlbGY2cHNxZm41SjYveTFKRUtLMzlqYTlTRkg2cCtpdXp2VzlGMDZrVkduYmVJNFEvNm5xbm5YakM3N3d5QTFqL1RFbEVrclNyOHBLM1RKL0xOckdwc1JHZXRrSWRjTEFsNjRGWDRMMUp5K0RaTHA4ZXE1ZmVpQjVRa1c0SWFVeStEYzVyOUJWYjlkZmFnbTVTZjF4WjFIWnR5MmpoYWVkVnFwcno1TTZGY1lkWFdLM1k2bXNDNUpuK011ZGRmRjJ2dXlVdzB6YWJSUXFqSFFxVFJhVnptdlJ2NWdYWXhucUNDNU44Q2ozbGNJMlcvOUg2ZkYxbkVnelI1T2xlT0xCZTlaWDdLUFpEWS8ycW1XUDJuSDFvK0QrZytEN0UrQjRscEg4eXE4dm9MVjUyZkpGZXRGU3E5eFZOdlEzMGR1YXcwVHRzcWFCYnArdXN0UnM1SzN5NkpweHVjS2o2VmluQkxnbzIwc3Vka1M1ZEQ2c3E3b3cxbVNoVjNQdUtwNGY4VytuSXBQZm5hT3pIUm5tcStmeGh4aThtL0NxeFhtb2RvYnhoVkpnRE9HalR2VUlWYmFKdXY1NzVGVDArSTU1TmVpMTdiaGVYSExXcW5pZGk5OTBUc09taWp3NCs0SVVETEZ6VThIakZsMFI0Y1ZkV3VsVFBMcjBmTGRlZTVDWHZwdlhmSmV0WEdxK0NHM0ZwWGRrc2Q5b0hqQ04yekRTSXZNMWhxRVpYZXpnbkpWTkZsNnFaWmwva0pQenRRVDh0UVM4VEpTVEZ4NGNtdmNOc2EvNXZOa2FydngzM3cxY3RKK2xkUlJ3cWNZcFpmUzJkbGYyUXh6R1B4QldsOFRHbms5ejZzN1M1eVNQUEFkZlQ4WnIvKzFzMFJlVjQzL1RCbjNZdjBXMXIydzk3N05KbitCOUgySzNVdVNSZDZSRE1FUmtMTW16MTlkdVAycTJ5VFRveVZDUkJDVEhwUTRxVEtscTJaekVaL1NiZE9INU9ESCtXRDdZMjZzMkdtTDF6TkxmQkxaZmRqQU0zckpubjlpand6b1cyQlp3Rm55cTg4UGY5Uy9pT2RtM0w5akdWZGNmVzNWd3FIdktmWXNqMCt5RkVGNWZWdXhVRUtlejJXTEtOdXJGQ3pYUktlTFkwZlF0aDh2OGZhYUhsdnhJNHJKZHJtVnVDNm5XNTBjNVdwNXAwejFyTDA3ZDY3UUdlTFQxK3d2bzFDZHczbFpkRlR0UW0xVjk3dkQ4NVlmb3RDZjJRZGpvcGNxVlZkMjIrdTZINlA0bmFPZFAxYjNQY29BRHZoZXRmUWpOOWEycmVacjFIWjV3RlNudkpZdktCczdna0pVSlMrQUNrdHBzNEozejdVSGp3OWJ1K2Vwak5ML3Z0TFlYOVg3VERCV1Z1WStsek5OSzVoczEvWm9uV1pObldoYVpYK0Z5VVI3bERnN3pMNTNjcTFiNlFWcHAyMTcrQmRINkIyM3lXUG9zNDhab21zSDB2OTA3N2NUZVhUM1ZLaHFPUStibnNObHJyUlcvbWp6TktsYjFXc21OVmltcWpkNDNlY2dkYzJRazRkUnJpTDVaS3FKdFRiK0lWOXVGOHh2TGI1K2J0dnFzNERqNzFMRW1Xc2FYVlhHVzRvWnYzN3p0YW45VzFheGFMQUZscWJMUkFwSHo5QjhZOHQwVzhoelZVMlhrZFd2MUx2OThSbG1Odk1iNkJyU1UwV2p5VWp2R25RYlBsL3JONUtwV2RvUGhXNzAvemppblNiMFdlbHVOM1BaUS9CTTg3Rnp2dUhidDlzMVFWWU9iYmhkVWY2azFobFFld2tvbmo4cjJxS3hKZTdqb2ZsSVBzZUxFUkpQNnEzTDQ0K1JsVUx1WnhTVytTT0NLQ3czdmo3M1J1ZGs5Ly9pMFBjTXJLUFVTNklwNzRQU3pzTFcrbzBsM216ZmsweFlQbE9wdHVzcU5HRVdhcmcyWkx2YW9OU1FmelVQT3d0NWRkcWwxeFcxWkhzNHNZLzNqMjNUQm1XWHRDeHhyTHl0ektodzc0cG1zbElva0JBRFJTMWRNekRtWm5UL3k4alFEMkVNeHp3Q0lQU3ZSbVYwZGhYc1hHY3VtUzBRRDFJYVF5ZkY4RUJYdEhCS05mVWdOSUNFdFA0V05KdldXK2xCY3BSbXhtdm4yMkMzTmlST1RROG1aU1JyK0pVK2NURk1rZ0F1akZsZ3Q4d3laWXhuUnJVTUtHakJVUG1RdTZEZWdjSmJFMk1pOUdiNTNidFRrWStiV0ZUWUFSOFZNUTBXZTd0K2NWNnNzMEVMTGNMYTdQcWRJTU5TN0tnUk9HdkhVc2w3YmtJVk5WdTRQNDIyRE4xdWI5K2VwVys0MkdvN0hFMXcyMExrK3BjcjhpUlFONkF5Z3RYeUoxRVA3ZnRiK3pQbWwrQSs0V2JtUEtLZVB4K2VwUmY3Z2hBTThJY0lMdUZHWkdxOWJpdEdScDNZMnZzSEJ0ZUdrSmN2U1BjSG5NTkNwV1owdXRjR04wS1NJT3NCdE5NdStyMWtaZVZLZjgrMDAwdDNaZ0xLK0N4WUdCMTJkWS9mYTB3Rm5GbGtmZFUvMnFVUTRwK25sb1kvMHZNR04ra2llS2FOaVB2RmQrNkp5Qk9KdDZYbi9ucm00UXZTUzlmTmRleVFKMFZnMk5zQ05FSTU4RDc2c2RESHJaL1hPZmJxWTdnaElEMXdhVDloeXpPVXBPVkt2bHJiem5YM0RrTmlpbk8wQkNkeEZIK3N6aldlNXZ4cEx0ZzNjV1FSY2NZbmg0NjNlY2FiN3F6bkhKa2lYVWlpOFg3MDIrRXlXZ24rTVEyL0tCTlM1Y3pseHU5VW1JMEhRRmFZSVptM25TNVdueEZnaUMvNWVsbjNRT3h4aVB6OCtGOGVlVk85UEU0UFAyQWVraURsRjN4dHZ5OXBvRjlWUE5FcE0ydVphdk4rZlM0T3lNK1pOcW1mOHNkWGJ1a0Z2dU54MjBCaGlYOXFqVVdabjVSLzlmbHRreXdsZE83ZmR0ZkNSdy9ncGZndXAvWXE1Wk44dTB2dkNOSnY4YUlMdHRRdUJ6RDBYVzNBL2E4OUhtUTByVW9mNTdjdmR1ZlR6L0RGUDdPc2x1Sm5mMEM1Y01WWmw0d21ObjVhaGJzYlY0a1pYSGlHZHM0dG9xU0lKb1NiMTRQbDA1OXd4VDlDNlMzRFh6VzdoNFFnYXd6SzlQYjJQMkNiekRocGZXaDhCUEhqZ3g0Mzc5R0Y0T24valJqN2pmWVZIUXRrVEFlblM2M2VzTDc5Rm5xRHZmeFNPWXR2eFlocHFraGdiTER0YnROQlIzRzVPTG5VT1F0MmJSVUNtOStldTZlMHhQZ29Yc1czOU1aMmp3Qmp5YUc4dzU2MUg4Y1FFZE0rV3hiQ2RmRWJ0QWxYcUViUDAyL054OERoNm9PSmgxTzR4Z1QzNThkd0ViN1RSWHhwVG1ibWFKSVpJQmxLWFRlL2Y1emx4T3NMaE1LOWpiK0pTSkVWTkJoTkY0YkZKanYrK0RDRE5NSjAvaVpNWHNUOFhGanQySnJiRDlheVVybStudUd1NTBXL0RXekUybk53N3V0V0xZRGM1bXg5Zk92NFA4Z3c1bmwvMStiRTNScXVONFNPOVE0NzJ6bm9uM0g2SWg4Z3hiVCsrUXpycmpnM3gxY3dEWkdlRDdyUWhjMEZ6bS9QdmxNNFo0d0x2b0hiNTlkZnpkbmwxck4vKzk1RDJLZkNoQTVMYlplaDduNk9nN095Q1F5UkcyS0dFZHdiM1BEUEszUzZkTVRieWp5b3BrN0kyMUdUT2gzaUJIcDJva2hBb0ZFdW84c1Q1NnRCNjdqYkVaeGZEWDUyQjgrTDJwU3owUlVQRWRvWkRTdEU0TStkMW5xWGVINFpPVmhJQmpURlZaSnVkd1duKzNXT2FjbUxVSDJlWEQyWXlTcDB5bHI3RnIwamJmR0x2a1VJbmNIQ3ZrWGxJV1hhWjZCRmh5N3llTkhtNlBtTStRMVhxUWVDeTRXSTRnbXBheGd5Q3BHVStrTjZvYkhISUlDQXdFVnNvRW95TjRhUnRqRWVORTVlSHVSZWxuRTdCYURnanhKbkFucm5lTkQvNVNFY0tQY1FYM1lmUU1mUk5jVkZPNzFXSnBGUjU5S2hUNUZhUlI1Qm5SdjkzTXIvYlRlWjNXOTRaeERPSzNTclNLTkE1U0dqb0lLNndnRlBneW5obEJBWmJTbE5VSExDR05hZndtYzBYYVJvSzBCVVRkWTVnR3pUbE8ydVpILzhGejg4aGZ0VDgwQUZmYWFsaWQzb1AwL1pUVlNJM1NCR29ycWtKZjZlK0trM1hMMjUvcFM2RUFGRFJhVGcwN08yTXNxRkNSZmw1S2NvUzhSNTJuakt5ODd3Rkx0d0FONFVKR2x2YU51SHZRZWxlZE5NOHI0dmhLTkM3aU5DdHN2TEpZcUJTTm9IYVQrUm1mSnRMaUNBaW1pTFFCVE1VRDRRNUt3ME1OY253RFlhLzV4L1pGdmhnQndCaTRZbzdSUFFOVG56WGZHWXVHMll1bmlXbGlRMXhlcEZzWDgvdEMrK1ZpR0NqUXJCaUtaMkNxd1hYWHdIeVBldkQrUEo5TUlJNE5JQVF1WDZZWHZqQmpRNVA5NFBXSmFkNDdHUWw5NUJDV2NXTFF4aWRZOGlqbFA2NThBNlA2ZHFFTVJ6Y2o1TXZ1OGtTeEJQbWJqdGVQdDJucVF6NFRUbE1rSGNPSlZaNHRNNGhva0VxQkM2UDRhbTZNRFRxN1RCL0VTTXd4S244SER4bThXem1qQWVsdVpYM2JGNGVDK2RnWHVRNWV2SDcvV0E3ZVN6K0N3OEM4Z2pxTHV2b25NaW41V0w0K3p3L2JJWURLY3htd1lud3dHTUduRDY1VFRRWDFoaHdyazBNcDFDWEVTSmhqeVlidUF1TFg5NzFKL083WkpMY2JjY3ZBNGRuZW8rS1ROdUtDME5FaEpCVU1zZDVSd29pRmdzVUpFcXhZRTA1RDFNdnFtcCt4alJlTWluWE8yTWRWUmJzaVZWNG0rTDhpb3ZTZDdNc0w0U1JJNXNWNUJZSk5pVWUySE1WMTB5cVBILzByY0xhWHNvdDlISjVMYWJ2aTNtdGovMittTmYyL0JFTjhhMGwvL3V2SDVlak1kZ0N0KzlxNWJxMTVWamlWZFY3cDVKWEphdlpxbkppY3ZoV1RIUVdFN2JBZlBRdGJTZ1E0TkhmalBkUHlSVGg0bklRVDE3ODNlU1JweVpPdjVZdkw5WGdTNGY3dnZpZGFUSUFFUkNKM0dMbWk5NFBpd09kTWRTTVNEMzYxaVNUZ2xXcFp5dnVEbVlKdSt1SEVpY09GemtZcVZLZnhOL3Q2WDBoTGVmd3I5Zjl3M2xteE1vZTU3bE9LclUycFJFMHVLZFNqbEQ4M1V0cGJ4Nnp1T3pDYXN2a2xzZFZxcG5pczRmamNhdlB2MmEzNVUyNGNaR244M2Q2OEgwRVhsNllvN1FVUjlTY1dMbVdsNitPenhVYVVBaEdicDVJUDhBQzBFd1NWbGlRMnZ0V3lwd0c4ZVF4dzkyMGJseWlTZE05cnMzL3hLNVVSQk82azN2K2NaQXhzOEY5bnBjSERFY2J4S1N3eDFkYVgrOElEb1ZudTF6TzlSbEFjeWdnZWxURTdZM25OQW5jSFJMeTBGN2NwNFVDem1Pa0djNmo4NDZFSzh3WXZ6cjU3enlXc3NvNHZ6cjBGcmdpVHNpY2ZkOVZKZWhwUSt5QjlaeGIvaFJwRktvTGV5R3k5QXZxRXlmZnpzNGdwZ05zWGhnQWZUZlpnck5yZ3gyWTRWclhRRnZRQmNmR2FpWEZSRmFhTXcrdStIbnBpVStVRFQ1aXFVMmw0YitQTlhGbkhZbDNPTTAyNUJ2L2pyR3U2WUwvYnVtQ0c0MTRlV25nRjRYcWIxVnBWaXFsMjFJKytKMGxkdDlSc3ZwZDR0TVYzMzRWZkJzaCtvTDJZY2svWldvSVFkcUFvU3VPb3p5bmJvRFRtczdyZVR3dmxiNGVUdTU1Tm5SNFdCTXo1UFI1T1owZFNFWUdUdFhnaW9uaXBlOVZTaVN3cnV6dUF0Q2RaZllBbGxBb3k1Rm5mbFF1K1l2RUNpbmgwZk42bWxSTFNrWmJuUkwyMlR3b3hJYXo1NTRxcC8zcUhOd2JEQi95ektpTEE1WVlOQitpVkVxZjNuOTFhSjEzMG5sV3duZlI4L1J5NUl3eFd2cjE2RUIzamFVaUQ1RG9HN1hCRER0WkgraEE2M2lYd2dmelVOU24xQ1B5V2hVS3RiTTFpVHdYYmlUZ0VMMVlvREdXL0pONFp3eEhOajhzTzlQMjlpbitZTDY3MVNsc2c3WDBydUFqZWNIZ2JGdlB5eUZYeExhTDFsTHVPMnVEMUp0UnRrOENvbDFJSmtGekx0WUJ1QlN2TUk3SjlBckxPSkJveEdlRjZtOEF0Z2ZYeXJnbmJiaVIwcFVtSEMva3FSODAxbmVXU2FpcEJ0a1kzc1hxUWRUS04rYmxlWjVTUzk0OWRvWURSMEdzamZoYzNmdDJ2b3JWRkE3RzZ2WklCbjJ6OUhoYTV1THlFdlh2U3UxNERidzlvN1RBendtMk5hUTBWU2ZhaTFKSitBYTk1dU9DeGsvalRHTndYWFFTeGcybXRPOFk2N25KUWVMU1V2REE3WWVxbUR1eUZIQjl6QU02RnVqOTdFZWVzUU52T3VmODF5K1BTNGtPWXIwN3F6bzY1R3ZJQW9HeUZLUFJlRTRjeXUvajlmM3FkT2lxaTE1MWc2dHVjTlVOcnJyQjMxZzMrUERTT2IrOFhzQ09OanAzOFBINDVlMXRsMS90MXBLVXRQS3BVcHJnVWdJVUhDeWJwa2JOZkhNcXBUUmFlWHJtMUtreXBHTTJ3R0ZSMUFGL3U2K0xFc0M4cHhUWFQwc1pLenFhS3k3VEZKZUVWY2gveDdMMTlkN2pFbG5UdzJkNHJrcHBpc0txWFAzcjZnMi9tbjBpQzVhb2wrMjcwbzhyL2ZpdnBCK3pJa2tIZXI4b0o5M2JtMWllYmowekIxa1A0WW83c3BVRUoxRHc5ZTRvTU92eTNyWnFENmlPKzVmSUpsbDVoZVBTVVZlZC9wY3BSMHVtNWFsd1FxdUk1M0o1OXZpYy9LeHl5eCtrSDd4L3JObEhKTHNNRXNSL2kzVEVYTXU5Zk9rY2dTNU9XQk45OWJMWWdlK21CK2U2QWsyL3Zqek5QMGU3Nk9BQTlDS3hhM1ZPNzdNTUR2VXNZMWJaa0E2UzFEOFdlR0tzSTRGajcyZFJTS21pcm5TRmtPY01hREIwYW1SaGlFb3R0RGVCT1I5RStsa1hBeWVRQkMvK1g1ODZHdzNHWnRoNStIZEhNMXduREIzZmswemQ5djBWZmhZNG9ibmVPTUJFdjRCR3g1NEJFYkE2bnpxT0Y1b2dYcHZ6bFJPOGpPZWl1WFplazg1RHRJN05UNTBJaG5NVHJNMEl0ZjN6VXdkb2V1bFRzRGExeU93OHZHb3dORDkxWGpVSHhtdnpHNDRDUWdPNWNhUkZqdTkxSGpxczVzQU9ucVpqVko3OStha0RmV3RzYmt6WWVhQStsYjc1ZHlkd1BBdG9nV0NHZnJ3R2FIbG9WbjkrNm5pK1ljNU5hSUxJWDNjZS92M25wODVhMXdCZVd6YWxyT0hhREtBRHRMRHpRSDdxNEhVNlVjTDRYbVR1b3ZURERDNERBUHpZUTh1TUhFTy9MWUI0dTgyZytLa1QrZEJjNDdtRm5ZZi8rVmQxTVUyVHpjQ1NGMitabTFIKzhNOC9QM1h5NGk3elEyMFh2Rld2cjQ3blJFazZ1eHFFSFZlekVPeXpzUm9MeER4c2lNLy8rRXgwc3RiZllnanpIZW53cjFNLytyWTJROU5EaCtJQStMdEdtSmFCdHo2czY5OGQ2TGhPaFA4Q1FkeDU2UFFJd3UxODZyaW02Ni9ST0YyQ21EZ2QzTVVmc1JtV20xSzFwajNjOHM5emQ2ZXhKTTRoNy9MeE5pRklCNEhwR1lJSlRTMDA1L0hycTdNcklBcGdIRWJtZWc3OHdEUnlyRC8wTjBuVE9COXZqQlpIUHNKZmY0UGVacCtsZlgwejF4bnk0R1VqdUlaNWs4QmNoMDRZbVY2MDhXSHNIbDZFa2IvV0xCTkFMUXhMaUY1RzUwOGR3NHhNRUUxOXcyVFRvMVlzdzNBbkdobzduOUkzYyszNEJnSXZBcmJoU3Y1NjFmYlc5RFlwUGxmTzRURTZCRWJ6OTRGdkREelBqM0tZbjBhZFk0ejRjaGxDNUZOQ00yNCt2TWRwdUJGYU9JYmVQUC9JZVlWYWFMZTlYRzFhM2h6aDJhdXBSZkhhektqRG02ZlBEOUQzL3BxdkhXcThodnpsdzRiOGZQKzUyMm1sY0lXL2F3UHh3TkVncmhZY2JVK05yS3hpM1p6bi9lRHBURk5ldWpZdEo0eld5ZWZWbC9DejQvK0dHdDRlUm53YlpTNUNqVHBWb1hwVnpDQjdyVlNsRllmeXVXWUx3ckF0TCtBQ25sRCs3SGp6VVJOYUE2czR5R2hHNDdicXVFV09sb2ZOalJ6WDNQc2Vhcjk0WVRyWnpGMnQ4K0RGRUg3cXZEb1E0MVVoNVh5MlRlZzZsdWV2ellOMHd5ZjBUSkVGN0lvTUVwclFFenBRcWQ0R1NURUdaVVBkb1IxRGdpRTJuU1Ewa2xMV09MWTh1WHZtRTNxaGNYRFBENmNrR05JYjRBbm9iNlMySXlrbjFDbmUwdE93emtCM1FZaFVjWjFqQ1UxV0lUK2tiWU96cXU4NU5sWUgvcExuZWxDbHNod3pqTDFOUGRGdHFESjU3UE5UTUhib2I3cTc2L0VjcmdLNXpkZUFyMUFjR3VkK0dWdCtMTERUMXdYT003aEE4MzNVS1RKQ3FvQzRtcjd3bkJBQWIvSThkbzNBWUw2ay8zTFEwOTErb3M3OFdQR0NaTHhOLzlVa0k5YTdJOGc0UFY5TlVGdmJLejNiRys3ZGhuRW0xZ3puQ08zSFBEZXlGU29pUWVvTkQ4SFcvMlBzVGJ0ZzRQOHhka2UyaG44TEVmcjlhdmxMbmxWdDRNS05JVStzK1VKZ3dkYVB3WEMwd2VhSmdSOXJrZ0NWK1pmblo2ZEg2REtkNkpULzNQbnpYOFdSdllweFZ6SHVLc1pkeGJpckdIY1Y0NjVpM0grMEdPZHFudk5xaG1qMDI5dmIzNzMvNzJhT0lmVndVOEdQMzA0V0VTb2kyWDczVm81blBOek1LeXY3M2RNQ1IwUWt5ZmNlYmpiazc1NXJSaHFTQ1I5KzkyNXVrTVNZRFhmY2Q5NGdETFJpVWxvUW9NZFEwMDBZNGk1dWJyUWcrSXpRWnUyWmtZbVJxTlJ0dm9xMnB1bFl4cTJlUE53TVRlaTJ0WE84TUVKczRjeHVnZThHdm1kNjBjTk44OEp1YnBDVS9EbTBmd08ydG81cTNkNm0yL2E3OTRFYnc2UzhRL0NoV2QwVjNGS0xJOXRmTzN1TWNmbGhQTFZmQmZrNHNYdi9OZHUwanFHSjFubDdvd1VPdC9iaklIeTQrWi9mTzc5My9vVjZLV2dRQnNYdFRYYjZ3L1NYdVRHOUNQKzlNZGQ2K3VIL3dWKysyUjE2YUhwRzREdW9oODZuM3c4VU9jd2FIL3BNU2ZMdm5VODN2M2NzTTByL2dFNlkvYlhWSW1DbmY4YUJrYmI4dldPWTBFUi9Oc3dHK1A3YWNMd3l4alJPRUF0RlAzNDZqV05ua05aU2FuUmlFdmtjemgxTlQ2ZlhNT1RTMTQvSE9iM0FNaWlLNFcvZXMxcWtTSjBHZGJuL0U3TzZmUEM2NEFtZzVyZ2ZEUW4wZDFDQS9yeDUrY1pGc3poN0M3U2dPR1MxYlRnb0RtRUd5cnpTWHBndHN5QTJhM1BqWUVIK2FJck5KTURjUmFaWC9xQTZ0T05aYXpOc09tN04zWGxtdFBYWEs4ZXpUcDNnUzN0RmtQbWNTU1dmZ2UrZUE2V2I2cFBmMEkvNDNBSGZHdXYvdFBiaitWNnVUeStFY2ZydU45ZU0xZzVvd1pwejhRNXJaUmNnM252UDJhVkhMR2dncktXVDF6Q05USE04aFNGVjVmS3lWUjhQMkNxUk5JeWRxY1JySDVyaEovei90YkhORUdnd3AraW42UDNwMDM3Sm5IN3ZvSW5vam1jNG5wWHg1Y00wRDg4dllFYTF5ZjBRc1pCT0ozYVZEajlZT2d4amZXbUNLQlVRbTdXazk2cENDSjhFOHhVRHNVSE12M2hQY3B3L3NlL2ZnMzIxa3JOVlRFTmNBeU5WdXBESG91MVZhYndRM3dJVFBLUTBLVFdFUE55UTZHZHUyY3BBNENJS1BDNEQ1U0t3WEx6Z2R5MDVSNmQ4em1WRVFQK0QxZmxmdUlKM3JPR2RHMWZzQ2Y1Uk9mMG5jUm45RDczUkhNOWNIOVo1ZTNOeVZkZ3krSEJ6eXQ1WGEzd3dJejdjbEsySWgyWlZKZmJ3djl4VVZudDhjd09DK09IbUMrSFduNmMydEllYkhqRnhEdStnc3pFOU13eS9yWDNkclBRVmdXRHVnNVVaMVVZSWZIUUU3b2w3b3Z6YzhaekkwZUNqQ2JWa2JnTGZNOEtIbTI2bFNZQ3RyTVZMc3ZJeXUySjZzZGRtYVB2UXFMNEh2dXRxbmxHWnllM05iM0c0L2czNlFJTy82WTczMnh2Ym1YNXoyMkN0dThWYjhjKzM3WGxOWFJsT0NQeU51VTZhZW1uZGZQeDlKcHpjaHZpTzRwL1JPalpiV2dURnpjTXRrbS9QYkJwc3ptd1lncWFHV2h6NXQ2K1ppYnlwUVdBVXIyL1R6ZjFuenoyQzBXcHpUaXRzcVQrbm9hRy8zY3B3YjExOGEzSlcweTIrUW5tNzZlYWYxT0dKNlcxcTJKaFNodWxnOGpUL05tQ2Vxb2NHTytPeGE5ODlPcTZ2amdtTlhKWm9lUFZOaSt5SGdnQi9McGhzMCtBdmFzT29EemVMRitaM3IvT3BzMGxaUHJiUEYvMFVGNk5CMFBuei93VUFBUC8vcjl4SFc1cGlBUUE9
+  kind: Secret
+  metadata:
+    creationTimestamp: "2025-08-06T21:18:06Z"
+    labels:
+      modifiedAt: "1754515087"
+      name: tidb-operator
+      owner: helm
+      status: deployed
+      version: "1"
+    name: sh.helm.release.v1.tidb-operator.v1
+    namespace: tidb-app
+    resourceVersion: "3287"
+    uid: 0bf9c862-c182-4696-a8c1-6bba2db89a84
+  type: helm.sh/release.v1
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    creationTimestamp: "2025-08-06T21:18:01Z"
+    name: default
+    namespace: tidb-app
+    resourceVersion: "3262"
+    uid: bbfd38d4-2ff1-4ec8-b69e-01c041ab86c7
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: tidb-operator
+      meta.helm.sh/release-namespace: tidb-app
+    creationTimestamp: "2025-08-06T21:18:06Z"
+    labels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/instance: tidb-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: tidb-operator
+      helm.sh/chart: tidb-operator-v1.6.3
+    name: tidb-controller-manager
+    namespace: tidb-app
+    resourceVersion: "3275"
+    uid: b759c4fa-b9ed-4253-94d7-53c7affc7aa6
+kind: List
+metadata:
+  resourceVersion: ""

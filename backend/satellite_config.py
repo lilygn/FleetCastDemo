@@ -13,10 +13,10 @@ SATELLITES = [
 GROUND_STATIONS = [
     {"id": f"GS-{i}", "location": f"Location-{i}", "capacity": random.randint(1, 10), "lon": random.randint(-180, 180), "lat": random.randint(-60, 60)} for i in range(1, 8)
 ]
-TIDB_HOST = os.getenv("TIDB_HOST")
-TIDB_USER = os.getenv("TIDB_USER")
-TIDB_PASSWORD = os.getenv("TIDB_PASSWORD")
-TIDB_DATABASE = os.getenv("TIDB_DATABASE")
+TIDB_HOST = "basic-tidb.tidb-cluster.svc.cluster.local"
+TIDB_USER = "root"
+TIDB_PASSWORD = ""
+TIDB_DATABASE = "satellite_sim"
 
 def simulate_satellite_position(orbit_period, timestamp=None, sat_id=None):
     if timestamp is None:
@@ -206,3 +206,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+simulate_and_log = main

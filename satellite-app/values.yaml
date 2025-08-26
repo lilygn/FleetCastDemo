@@ -49,14 +49,14 @@ backend:
 
   livenessProbe:
     httpGet:
-      path: /dashboard
-      port: http
+      path: /api/health
+      port: 5000
     initialDelaySeconds: 10
     periodSeconds: 30
   readinessProbe:
     httpGet:
-      path: /dashboard
-      port: http
+      path: /api/health
+      port: 5000
     initialDelaySeconds: 5
     periodSeconds: 10
 
@@ -72,13 +72,12 @@ backend:
   tolerations: []
   affinity: {}
 
-tidbSecretName: tidb-secret
-# === TiDB Secrets (Override in values.secret.yaml) ===
+# === TiDB Secrets  ===
 tidb:
-  host: ""
-  user: ""
+  host: "basic-tidb.tidb-cluster.svc.cluster.local"
+  root: "root"
   password: ""
-  database: ""
+  database: "satellite_sim"
 
 tidbCAConfigMapName: tidb-ca-configmap
 
@@ -89,15 +88,15 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   hosts:
-    - host: orbital.local
+    - host: orbital-alt.local
       paths:
         - path: /()(.*)
-          pathType: Prefix
+          pathType: ImplementationSpecific
           backend:
             serviceName: satellite-app-frontend
             servicePort: 80
         - path: /api(/|$)(.*)
-          pathType: Prefix
+          pathType: ImplementationSpecific
           backend:
             serviceName: satellite-app-backend
             servicePort: 5000

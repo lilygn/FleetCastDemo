@@ -17,23 +17,26 @@ spec:
       containers:
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
-          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
               name: http
           livenessProbe: {{- toYaml .Values.backend.livenessProbe | nindent 12 }}
           readinessProbe: {{- toYaml .Values.backend.readinessProbe | nindent 12 }}
           resources: {{- toYaml .Values.backend.resources | nindent 12 }}
-          # envFrom:
-          #   - configMapRef:
-          #       name: {{ include "satellite-app.fullname" . }}-backend-configmap
           env:
             - name: TIDB_CA_PEM
               value: /app/tidb-ca.pem
-            - name: TIDB_SECRET_NAME
-              value: {{ .Values.tidbSecretName | quote }}
             - name: TIDB_CA_CONFIGMAP_NAME
               value: {{ .Values.tidbCAConfigMapName | quote }}
+            - name: TIDB_HOST
+              value: {{ .Values.tidb.host | quote }}
+            - name: TIDB_USER
+              value: {{ .Values.tidb.root | quote }}
+            - name: TIDB_PASSWORD
+              value: {{ .Values.tidb.password | quote }}
+            - name: TIDB_DATABASE
+              value: {{ .Values.tidb.database | quote }}
           volumeMounts:
             - name: tidb-ca-volume
               mountPath: /app/tidb-ca.pem

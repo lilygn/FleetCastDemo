@@ -1,0 +1,27 @@
+apiVersion: pingcap.com/v1alpha1
+kind: TidbCluster
+metadata:
+  name: basic
+  namespace: tidb-cluster
+spec:
+  version: v6.5.0
+  timezone: UTC
+  pvReclaimPolicy: Delete
+  enableDynamicConfiguration: true
+  pd:
+    replicas: 1
+    storageClassName: local-path
+    requests:
+      storage: "1Gi"
+  tidb:
+    replicas: 1
+    service:
+      type: ClusterIP
+    storageClassName: local-path
+    requests:
+      storage: "1Gi"
+  tikv:
+    replicas: 1
+    storageClassName: local-path
+    requests:
+      storage: "1Gi"

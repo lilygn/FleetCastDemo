@@ -10,15 +10,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
-TIDB_HOST = os.getenv("TIDB_HOST")
-TIDB_USER = os.getenv("TIDB_USER")
-TIDB_PASSWORD = os.getenv("TIDB_PASSWORD")
-TIDB_DATABASE = os.getenv("TIDB_DATABASE")
+TIDB_HOST = "basic-tidb.tidb-cluster.svc.cluster.local"
+TIDB_USER = "root"
+TIDB_PASSWORD = ""
+TIDB_DATABASE = "satellite_sim"
 
 # Allow React frontend to talk to FastAPI backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://orbital.local:8080"],  # adjust as needed
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://orbital.local:8080", "127.0.0.1:3000"],  # adjust as needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -104,7 +104,7 @@ def get_dashboard_summary():
 
 @app.get("/api/station/{station_id}")
 def get_station_data(station_id: str):
-    ssl_ca_path = os.path.join(os.path.dirname(__file__), 'tidb-ca.pem')  # ✅ add this
+    ssl_ca_path = os.path.join(os.path.dirname(__file__), 'tidb-ca.pem') 
 
     conn = pymysql.connect(
     host=TIDB_HOST,
@@ -165,3 +165,7 @@ WHERE sub.rn = 1
     cursor.close()
     conn.close()
     return {"station_id": station_id, "satellites": station_data}
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok"}
