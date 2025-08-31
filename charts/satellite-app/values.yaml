@@ -2,7 +2,7 @@
 frontend:
   replicaCount: 2
   image:
-    repository: lilygniedz/orbital-frontend
+    repository: ghcr.io/lilygn/orbital-frontend
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -39,7 +39,7 @@ frontend:
 backend:
   replicaCount: 2
   image:
-    repository: lilygniedz/satellite-backend
+    repository: ghcr.io/lilygn/satellite-backend
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -49,14 +49,24 @@ backend:
 
   livenessProbe:
     httpGet:
+<<<<<<< HEAD
       path: /api/health
       port: 5000
+=======
+      path: /api/dashboard
+      port: http
+>>>>>>> sync-fix
     initialDelaySeconds: 10
     periodSeconds: 30
   readinessProbe:
     httpGet:
+<<<<<<< HEAD
       path: /api/health
       port: 5000
+=======
+      path: /api/dashboard
+      port: http
+>>>>>>> sync-fix
     initialDelaySeconds: 5
     periodSeconds: 10
 

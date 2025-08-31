@@ -30,6 +30,7 @@ spec:
             - name: TIDB_CA_CONFIGMAP_NAME
               value: {{ .Values.tidbCAConfigMapName | quote }}
             - name: TIDB_HOST
+<<<<<<< HEAD
               value: {{ .Values.tidb.host | quote }}
             - name: TIDB_USER
               value: {{ .Values.tidb.root | quote }}
@@ -37,6 +38,27 @@ spec:
               value: {{ .Values.tidb.password | quote }}
             - name: TIDB_DATABASE
               value: {{ .Values.tidb.database | quote }}
+=======
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.tidbSecretName | quote }}
+                  key: TIDB_HOST
+            - name: TIDB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.tidbSecretName | quote }}
+                  key: TIDB_USER
+            - name: TIDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.tidbSecretName | quote }}
+                  key: TIDB_PASSWORD
+            - name: TIDB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.tidbSecretName | quote }}
+                  key: TIDB_DATABASE
+>>>>>>> sync-fix
           volumeMounts:
             - name: tidb-ca-volume
               mountPath: /app/tidb-ca.pem
