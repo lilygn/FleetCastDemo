@@ -18,7 +18,7 @@ TIDB_DATABASE = "satellite_sim"
 # Allow React frontend to talk to FastAPI backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://orbital.local:8080", "127.0.0.1:3000"],  # adjust as needed
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://orbital.local:8080", "127.0.0.1:3000", "https://fleet-cast.vercel.app"],  # adjust as needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
