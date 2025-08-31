@@ -205,8 +205,7 @@ def get_dashboard_summary():
     finally:
         conn.close()
         cursor.close()
-    finally:
-        conn.close()
+    
 
     return {
         "totalSatellites": 100,
