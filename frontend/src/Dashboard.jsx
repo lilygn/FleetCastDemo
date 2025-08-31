@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Dashboard.css';
+import api from './api'
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
@@ -9,7 +10,7 @@ function Dashboard() {
   // Fetch summary using Axios
   useEffect(() => {
     const fetchData = () => {
-        axios.get(`'http://localhost:3000/api/dashboard`)
+      api.get('/api/dashboard')
   .then(res => {
     console.log("Dashboard data:", res.data);  // <-- Add this
     setSummary(res.data);
