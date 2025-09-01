@@ -14,6 +14,7 @@ CA_PATH = HERE / "tidb-ca.pem"                      # expects cert at backend/ti
 if not CA_PATH.exists():
     raise FileNotFoundError(f"CA file not found at {CA_PATH}, cannot connect to TiDB securely")
 
+
 TIDB_HOST = os.getenv("TIDB_HOST")
 TIDB_PORT = int(os.getenv("TIDB_PORT", "4000"))
 TIDB_USER = os.getenv("TIDB_USER")
@@ -47,8 +48,7 @@ app.add_middleware(
         "http://localhost:3001",
         "http://127.0.0.1:3001",
         "http://orbital.local:8080",
-        "https://fleet-cast-demo.vercel.app",
-        "https://fleet-cast.vercel.app",
+        "https://fleetcast.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
